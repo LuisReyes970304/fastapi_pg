@@ -16,17 +16,16 @@ class UserCrud:
             session.close()
             return user
         
-    async def update(self, email, user, session):
-            statement = select(User).where(User.email == email)
-            results = session.exec(statement)
-            user_to_update = results.one_or_none()
-            if user_to_update: 
-                for key, value in user.model_dump(exclude_unset=True).items():
-                    setattr(user_to_update, key, value)
-                session.add(user_to_update)
-                session.commit()
-                session.refresh(user_to_update)
-                session.close()
-                return user_to_update
-            else:
-                return None
+    def update(self, email, user, session):
+        statement = select(User).where(User.email == email)
+        user_to_update = session.exec(statement).one_or_none()
+        if not user_to_update:
+            return None
+        for key, value in user.model_dump(exclude_unset=True).items():
+            setattr(user_to_update, key, value)
+
+        session.add(user_to_update)
+        session.commit()
+        session.refresh(user_to_update)
+
+        return user_to_update

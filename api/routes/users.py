@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from api.dto.user_dto import UserData, UserDto, UserUpdateDto
 from api.repository.user_repository import UserCrud
 from api.models.user_model import User
@@ -24,5 +24,7 @@ async def create_user(user: UserDto, session: Session = Depends(get_session)):
 @router.patch("/update_user/{email}")
 async def update_user(email: str, user: UserUpdateDto, session: Session = Depends(get_session)):
     user_crud = UserCrud()
-    updated_user = await user_crud.update(email, user, session)
+    updated_user = user_crud.update(email, user, session)
+    if updated_user is None:
+        raise HTTPException(status_code=404, detail=f"User with email '{email}' not found")
     return {"message": "User updated successfully", "user": updated_user}
