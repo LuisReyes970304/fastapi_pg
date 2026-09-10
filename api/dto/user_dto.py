@@ -8,5 +8,5 @@ class UserDto(BaseModel):
     name: Name
     email: EmailStr
     password: Password
-    role: str
+    role: int
     

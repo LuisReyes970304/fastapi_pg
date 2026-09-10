@@ -5,6 +5,6 @@ class User(SQLModel, table=True):
     name: str
     email: str
     password: str
-    role: str
+    role_id: int
     
 
