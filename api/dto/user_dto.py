@@ -10,3 +10,7 @@ class UserDto(BaseModel):
     password: Password
     role_id: int
     
+class UserUpdateDto(BaseModel):
+    name: Name | None = None
+    email: EmailStr | None = None
+    password: Password | None = None
