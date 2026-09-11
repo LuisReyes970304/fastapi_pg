@@ -2,7 +2,7 @@ from sqlmodel import select
 from api.models.user_model import User
 
 
-class UserCrud:
+class UserRepository:
     async def find_all(self, user, session):
             statement = select(user)
             results = session.exec(statement)
@@ -29,3 +29,14 @@ class UserCrud:
         session.refresh(user_to_update)
 
         return user_to_update
+    
+    def delete(self, email, session):
+        statement = select(User).where(User.email == email)
+        user_to_delete = session.exec(statement).one_or_none()
+        if not user_to_delete:
+            return None
+        session.delete(user_to_delete)
+        session.commit()
+        return user_to_delete
+    
+    
