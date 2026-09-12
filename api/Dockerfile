@@ -14,4 +14,4 @@ ENV PYTHONPATH=/app
 WORKDIR /app/api
 
 #These are the comand
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port ${APP_CONTAINER_PORT}"]

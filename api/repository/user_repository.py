@@ -1,42 +1,39 @@
-from sqlmodel import select
 from api.models.user_model import User
+from sqlmodel import select
 
+class UserRepocitory:
+    
+    async def find_all(self, session):
+        statement = select(User).where(User.is_active == True)
+        return session.exec(statement).all()
 
-class UserRepository:
-    async def find_all(self, user, session):
-            statement = select(user)
-            results = session.exec(statement)
-            for user in results:
-                yield user
-                
+    async def find_one(self, id, session):
+        statement = select(User).where(User.id == id)
+        result = session.exec(statement).one_or_none()
+        return result
+
     async def create(self, user, session):
-            session.add(user)
-            session.commit()
-            session.refresh(user)
-            session.close()
-            return user
-        
-    def update(self, email, user, session):
-        statement = select(User).where(User.email == email)
-        user_to_update = session.exec(statement).one_or_none()
-        if not user_to_update:
-            return None
+        session.add(user)
+        self.refresh(user, session)
+        return user
+
+    def update(self, result, user, session):
         for key, value in user.model_dump(exclude_unset=True).items():
-            setattr(user_to_update, key, value)
+            setattr(result, key, value)
+        session.add(result)
+        self.refresh(result, session)
+        return result
 
-        session.add(user_to_update)
-        session.commit()
-        session.refresh(user_to_update)
-
-        return user_to_update
-    
-    def delete(self, email, session):
-        statement = select(User).where(User.email == email)
-        user_to_delete = session.exec(statement).one_or_none()
-        if not user_to_delete:
+    def delete(self, result, session):
+        if not result:
             return None
-        session.delete(user_to_delete)
+        session.delete(result)
+        self.refresh(result, session)
+        return result
+    
+    def refresh(self, result, session):
+        if(result == None):
+            return session.commit()
         session.commit()
-        return user_to_delete
-    
-    
+        session.refresh(result)
+        return result

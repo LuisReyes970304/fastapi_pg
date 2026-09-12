@@ -34,9 +34,7 @@ async def root():
     return {"message": "Hello World"}
 
 app.include_router(users)
-# app.include_router(create_user)
-# app.include_router(update_user)
-# app.include_router(delete_user)
+
 
 
 

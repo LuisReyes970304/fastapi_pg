@@ -2,7 +2,7 @@ from pydantic import BaseModel, EmailStr
 from api.dto.uses_cases.user_uses_cases import Name, Password
 
 class UserData(BaseModel):
-    users: list[dict]
+    user_list: list[dict]
 
 class UserDto(BaseModel):
     name: Name

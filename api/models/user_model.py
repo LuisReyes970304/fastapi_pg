@@ -6,5 +6,6 @@ class User(SQLModel, table=True):
     email: str
     password: str
     role_id: int
+    is_active: bool = Field(default=True)
     
 

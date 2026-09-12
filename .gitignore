@@ -1,6 +1,7 @@
 
 /api/.venv
 .env
+.venv
 
 # Python bytecode / caches
 __pycache__/
