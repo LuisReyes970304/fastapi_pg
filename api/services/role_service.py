@@ -6,5 +6,5 @@ class RoleServices:
     def find_all(self, session):
         return role_repository.find_all(session)
     
-    def find_one(self, session, id):
-        return role_repository.find_one(session, id)
+    def find_one(self, id, session):
+        return role_repository.find_one(id, session)
