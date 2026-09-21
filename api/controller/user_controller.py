@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from api.dto.user_dto import UserData, UserDto, UserUpdateDto
 from api.models.user_model import User
-from api.services.user_services import UserServices
+from api.services.user_service import UserServices
 
 user_services = UserServices()
 
