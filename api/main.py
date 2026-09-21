@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends
 from contextlib import asynccontextmanager
 from api.config.db import create_db_and_tables
 from api.routes.users import router as users
+from api.routes.auth import router as auth
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -34,6 +35,7 @@ async def root():
     return {"message": "Hello World"}
 
 app.include_router(users)
+app.include_router(auth)
 
 
 
